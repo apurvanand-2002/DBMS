@@ -1,0 +1,93 @@
+<---database related codes:--->
+CREATE DATABASE apurv;
+DROP DATABASE apurv;
+USE apurv;
+SELECT DATABASE ();
+
+<----FOR TABLES---->
+CREATE TABLE apurv (
+     s_no INT NOT NULL,
+     name VARCHAR(255) NOT NULL,
+     registration_no INT NOT NULL DEFAULT 0 ,
+                                                                      {data type, constraint, default values}
+                    );
+
+DESC apurv;
+SHOW TABLES;
+SHOW TABLE apurv;
+ALTER TABLE apurv ADD marks INT NOT NULL;
+ALTER TABLE apurv DROP marks;
+ALTER TABLE apurv MODIFY registration_no INT NOT NULL DEFAULT 1;
+ALTER TABLE apurv CHANGE registration_no scholar_id INT NOT NULL DEFAULT 1;
+ALTER TABLE apurv RENAME TO APURV;
+DROP TABLE apurv;
+
+<----FOR RECORDS------>
+INSERT INTO students(name, registration_no, gender) VALUES("Apurv",2112052,"Male");
+
+*When order of all different columns(attributes) is known :
+INSERT INTO students VALUES(1, "APURV", 2112052, "MALE");
+//1 above is serial number ; which earlier we gave as AUTO_INCREMENTED, but here we need to give it as input as well.
+
+SELECT * FROM students;  // for fetching all data from table students
+SELECT name, gender FROM students; // used to fetch only name and gender attribute(column) from table named students
+SELECT * FROM students WHERE registration_no>=2112003 AND gender="MALE"; // only fetches all info about those whose registration no >= 2112003 and gender ="MALE"
+                -----use of AND and OR is permitted ----------
+SELECT * FROM students ORDER BY name ASC; //used to order table in ascending order of names
+SELECT * FROM students ORDER BY names DESC; // used to order names in descending order
+
+UPDATE students SET
+registration_no=2112001,         // use of AND is not permitted here.
+gender="FEMALE"
+WHERE s_no=2;           //As we had declared s_no as primary key, so, for primary key corresponding to 2 , the updation will be made.
+
+DELETE FROM students WHERE s_no=2; // to delete s_no=2 from students table
+
+<----Foreign Key Syntax------->
+FOREIGN KEY(company_id) REFERENCES companies(id)     //to fetch companies(id) from companies table, as foreign key for students table
+                                                     // foreign key is named as singular form of second table + underscore + column for reference
+
+<---JOIN query---->  //for joining 2 (related)tables in MYSQL.
+We assume that each of the 2 tables, students and companies have been merged to form a new table ;where students and companies sttributes' are mentioned using dots.
+
+SELECT
+companies.location FROM students INNER JOIN companies
+ON
+students.company_id=companies.id WHERE students.name="NAVJOT";
+
+<-----TYPES OF JOIN IN MYSQL----->
+1.INNER JOIN 2.LEFT JOIN 3.RIGHT JOIN
+
+1.INNER JOIN:in inner join only those records are fetched which have values corresponding in both the tables. 
+
+SELECT
+* 
+FROM students 
+INNER JOIN 
+companies
+ON
+students.company_id=companies.id;
+
+2.LEFT JOIN:includes all records of left table i.e. here students irrespective of their right record presence.
+
+SELECT
+*
+FROM students 
+LEFT JOIN 
+companies
+ON
+students.company_id=companies.id;
+
+3.RIGHT JOIN:joins all columns of right table i.e. companies table here irrespective of their left column presence.
+
+SELECT
+*
+FROM 
+students 
+RIGHT JOIN 
+companies
+ON
+students.company_id=companies.id;
+
+<----IMPORT AND EXPORT A DATABASE---->
+FOR IMPORTING AND EXPORTING USE IMPORT AND EXPORT BUTTONS.
